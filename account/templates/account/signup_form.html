@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+    <div class="form__wrapper signup__form">
+<form method="post" class="form">
+    {% csrf_token %}
+
+    {% for field in form %}
+
+        <label for="{{field.id_for_label}}" class='field__label'>{{field.label}}</label>
+        <div class="input__wrapper">{{field}}</div>
+
+        <ul>
+            {% for error in field.errors %}
+
+                <li style="color: red" class="field__errors">{{ error }}</li>
+
+            {% endfor %}
+        </ul>
+
+    {% endfor %}
+
+{#    {% for error in form.non_field_errors %}#}
+{#        <div style="color: red">{{error}}</div>#}
+{#    {% endfor %}#}
+    <button type="submit" class="form__button">Submit</button>
+    <p class="button__wrapper">Already have an account? click<a href="{% url 'account:login' %}"> here</a> to sign in</p>
+
+</form>
+    </div>
+
+{% endblock content %}

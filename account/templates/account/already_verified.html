@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="already_verified">
+    <p>You are already verified</p>
+    <p><a href="{% url 'account:login' %}">login</a></p>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+    <p style="font-weight: bold; text-align: center;">Enter your address</p>
+    <div class="form__wrapper signup__form">
+        <form action="" method="post" class="form">
+            {% csrf_token %}
+
+            {% for field in form %}
+
+                <label for="{{field.id_for_label}}" class='field__label'>{{field.label}}</label>
+                <div class="input__wrapper">{{field}}</div>
+                <p style="font-size: .8rem; font-style: italic">{{field.help_text}}</p>
+
+                <ul>
+                    {% for error in field.errors %}
+
+                        <li style="color: red" class="field__errors">{{ error }}</li>
+
+                    {% endfor %}
+                </ul>
+
+
+            {% endfor %}
+
+            <button type="submit" class="form__button">Save</button>
+
+
+    </form>
+</div>
+{% endblock content %}

@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block content %}
+    {% include "searchbar.html" with search_query=search_query %}
+
+{% include 'partials/product_list_partial.html' %}
+
+{% endblock %}
