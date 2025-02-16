@@ -28,7 +28,7 @@ DEBUG = os.environ.get('DEBUG', False) == "True"
 
 ALLOWED_HOSTS = []
 
-allowed_hosts = os.environ.get('ALLOWED_HOSTS', '').split(',')
+allowed_hosts = os.environ.get('ALLOWED_HOSTS', '*').split(',')
 for host in allowed_hosts:
     ALLOWED_HOSTS.append(host)
 
@@ -105,7 +105,7 @@ if DEBUG:
     USE_S3 = False
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.mysql',
+            'ENGINE': 'django.db.backends.postgresql',
             'NAME': os.environ.get('TEST_DB_NAME'),
             'USER': os.environ.get('DB_USER'),
             'PASSWORD': os.environ.get('DB_PASSWORD'),
@@ -117,7 +117,7 @@ else:
     USE_S3 = True
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.mysql',
+            'ENGINE': 'django.db.backends.postgresql',
             'NAME': os.environ.get('TEST_DB_NAME'),
             'USER': os.environ.get('DB_USER'),
             'PASSWORD': os.environ.get('DB_PASSWORD'),
@@ -175,12 +175,10 @@ MAILGUN_API_KEY = os.environ.get('MAILGUN_API_KEY')
 LOGIN_URL = "account:login"
 # LOGOUT_REDIRECT_URL = "account:home"
 
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:8000',
-    'http://127.0.0.1:8000',
-    'https://www.dalle-stores.praiseafk.tech',
-    'https://dalle-stores.praiseafk.tech'
-]
+allowed_origins = os.environ.get('ALLOWED_ORIGINS')
+if not allowed_origins: 
+    raise ValueError('ALLOWED_ORIGINS env not found')
+CORS_ALLOWED_ORIGINS = allowed_origins.split(',')
 
 # STATICFILES SETTINGS
 STATICFILES_DIRS = [
@@ -195,13 +193,13 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 PAYSATCK_SECRETE_KEY = os.environ.get('PAYSTACK_SECRET_KEY')
 
-CSRF_TRUSTED_ORIGINS = ['http://localhost:8000', 'https://www.dalle-stores.praiseafk.tech', 'https://dalle-stores.praiseafk.tech']
+CSRF_TRUSTED_ORIGINS = allowed_origins.split(',')
 
 if USE_S3:
     # AWS CREDENTIALS
     AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
     AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
-    AWS_STORAGE_BUCKET_NAME = 'dalle-stores'
+    AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_BUCKET_NAME')
     AWS_S3_FILE_OVERWRITE = False
     AWS_DEFAULT_ACL = None
 
@@ -210,5 +208,5 @@ if USE_S3:
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
     MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/'
 
-    STATIC_URL = f'https://dalle-stores.s3.amazonaws.com/static/'
+    STATIC_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/static/'
     STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'

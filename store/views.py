@@ -1,3 +1,4 @@
+import os
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.http import Http404, HttpResponse
@@ -321,7 +322,7 @@ def shippingAddressView(request):
                 "email": str(request.user.email),
                 "amount": str(total_price * 100),
                 "currency": "NGN",
-                "callback_url": "https://www.dalle-stores.praiseafk.tech/store/callback_url",
+                "callback_url": f"{os.environ.get('HOST')}/store/callback_url",
                 "reference": str(order_number)
             })
 
