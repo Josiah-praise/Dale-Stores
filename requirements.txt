@@ -10,11 +10,13 @@ django-extensions==3.2.3
 django-htmx==1.18.0
 django-storages==1.14.3
 django-template-partials==24.2
+gunicorn==23.0.0
 idna==3.7
 jmespath==1.0.1
 mysql==0.0.3
 mysql-connector-python==9.0.0
 mysqlclient==2.2.4
+packaging==24.2
 pillow==10.3.0
 psycopg2==2.9.10
 PyJWT==2.8.0
