@@ -102,7 +102,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 if DEBUG:
-    USE_S3 = False
+    USE_S3 = True
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
@@ -176,7 +176,7 @@ LOGIN_URL = "account:login"
 # LOGOUT_REDIRECT_URL = "account:home"
 
 allowed_origins = os.environ.get('ALLOWED_ORIGINS')
-if not allowed_origins: 
+if allowed_origins is None: 
     raise ValueError('ALLOWED_ORIGINS env not found')
 CORS_ALLOWED_ORIGINS = allowed_origins.split(',')
 
