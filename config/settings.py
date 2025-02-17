@@ -191,6 +191,9 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / "media"
 
+if not os.path.exists(MEDIA_ROOT):
+    os.makedirs(MEDIA_ROOT)
+
 PAYSATCK_SECRETE_KEY = os.environ.get('PAYSTACK_SECRET_KEY')
 
 CSRF_TRUSTED_ORIGINS = allowed_origins.split(',')
